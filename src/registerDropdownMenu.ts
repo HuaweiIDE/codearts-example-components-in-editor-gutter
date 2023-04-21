@@ -1,47 +1,11 @@
-# codearts-example-view-title-action README
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Huawei Technologies Co., Ltd. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-## Features
+import * as codearts from '@codearts/plugin';
 
-This example demonstrates how to use the registerComponentsInEditorGutter API. This includes:
-
-- Register actionViewItems in the gutter of the editing area.
-- Register dropdownMenus in the gutter of the editing area.
-
-## APIs
-
-- codearts.ui.actionViewItem.create(action, options)
-
-    ```typescript
-    // Create actionViewItem
-    const lineNumber = 1;
-    const action = {
-        id: `favorited-${Math.random()
-            .toString(18)
-            .slice(2, 15)}-${new Date().getTime()}`,
-        label: "Favorited",
-        class: "codicon codicon-favorited",
-        enabled: true,
-        tooltip: "",
-        lineNumber: lineNumber,
-    };
-    const options: codearts.ui.ActionViewItemOptions = {
-        icon: true,
-        label: false,
-    };
-    const actionViewItem = await codearts.ui.actionViewItem.create(
-        action,
-        options
-    );
-
-    // Add onClick event listener of actionViewItem
-    actionViewItem.onClick(async () => {
-        codearts.window.showInformationMessage("click " + action.label);
-    });
-    ```
-
-- codearts.ui.dropdownMenuActionViewItem.create(dropdownMenuAction, menuActions)
-
-    ```typescript
+export async function registerDropdownMenu(document: codearts.TextDocument, components: Array<codearts.ui.Component>) {
     // Create dropdown menu item
     const runDebugItemName = "test-main-class";
     const runActionMenuItem = {
@@ -88,7 +52,7 @@ This example demonstrates how to use the registerComponentsInEditorGutter API. T
     });
 
     // Create dropdown menu
-    const lineNumber: number = 2;
+    const lineNumber: number = 3;
     const menuActions: codearts.ui.ActionViewItemAsDropdownMenuItemOptions[] = [
         {
             actionViewItemId: runMenuActionViewItem.id,
@@ -108,18 +72,6 @@ This example demonstrates how to use the registerComponentsInEditorGutter API. T
             dropdownMenuAction,
             menuActions
         );
-    ```
 
-- codearts.window.registerComponentsInEditorGutter(filePath, components);
-    ```typescript
-    // Register dropdownMenuActionViewItems of all visible views(current file path) to editor gutter in batches.
-    // (Notes: If this arg of components is an empty array, the     components of the filePath will be unregistered.)
-    codearts.window.registerComponentsInEditorGutter(
-        document.uri.fsPath,
-        components
-    );
-    ```
-## Effect
-
-![image](https://bbs-img.huaweicloud.com/blogs/img/20230322/1679472199472739648.png)
-
+    components.push(dropdownMenuActionViewItem);
+}
